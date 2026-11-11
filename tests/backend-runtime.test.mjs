@@ -4,6 +4,7 @@ import {spawn} from 'node:child_process';
 import {mkdtempSync,readFileSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {tmpdir} from 'node:os';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
 async function start(t,dir){
@@ -18,7 +19,7 @@ async function start(t,dir){
  return {child,base,stop:()=>new Promise(resolve=>{child.once('exit',resolve);child.kill();})};
 }
 test('CLI starts HTTP, generates private demo access and restarts persistent SQLite',async t=>{
- const dir=mkdtempSync(join(process.env.TMPDIR||process.env.TEMP,'tdlend-runtime-'));
+ const dir=mkdtempSync(join(process.env.TMPDIR||process.env.TEMP||tmpdir(),'tdlend-runtime-'));
  t.after(()=>rmSync(dir,{recursive:true,force:true}));
  const first=await start(t,dir);
  assert.equal((await fetch(first.base+'/')).status,200);
