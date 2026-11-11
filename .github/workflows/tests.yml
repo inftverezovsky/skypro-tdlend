@@ -1,0 +1,37 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26.7.0'
+      - run: npm test
+  linux-container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26.7.0'
+      - name: Build isolated Linux image
+        run: docker build --tag tdlend-ci .
+      - name: Start disposable application
+        run: docker run --detach --name tdlend-ci --publish 127.0.0.1:3187:3187 tdlend-ci
+      - name: Verify HTTP, session and database after restart
+        run: node scripts/ci-container-smoke.mjs
+      - name: Application logs
+        if: failure()
+        run: docker logs tdlend-ci
+      - name: Remove only this job's disposable container
+        if: always()
+        run: docker rm --force --volumes tdlend-ci

@@ -1,0 +1,13 @@
+node_modules/
+data/
+coursework/
+.env
+.env.*
+!.env.example
+.playwright-cli/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.log
+.DS_Store

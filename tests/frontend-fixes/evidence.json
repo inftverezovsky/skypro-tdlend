@@ -1,0 +1,17 @@
+{
+  "scope": ["public/ui.mjs", "tests/frontend-review.test.mjs", "tests/frontend-fixes/"],
+  "baseline_ui_sha256": "1c3daeebe7c28440e079ff87bf80ef3463337f1d3445ec0c5907f47186aa65f0",
+  "final_ui_sha256": "9ed721c895ae7aebcb22d2c6e6ed55293f5d60ae42b591d3295e214f9d4e26fb",
+  "final_regression_test_sha256": "fa518671e55f015bc5ae05383ba7e094e7fe594ba1e88aaf2bf3a1c42db276da",
+  "receipts": [
+    {"file":"01-red.log","exit":1,"expected_failure":"URL stays booking after committed POST and failed own GET"},
+    {"file":"01-green.log","exit":0,"tests":1,"pass":1},
+    {"file":"02-red.log","exit":1,"expected_failure":"untouched confirmed status overrides fresh cancelled status"},
+    {"file":"02-conflict-red.log","exit":1,"expected_failure":"dirty completed status overrides fresh cancelled status without conflict handling"},
+    {"file":"02-green.log","exit":0,"tests":24,"pass":24},
+    {"file":"03-red.log","exit":1,"expected_failure":"foreign admin booking and cancel action appear after own GET fails"},
+    {"file":"03-green.log","exit":0,"tests":25,"pass":25},
+    {"file":"final-npm-test.log","command":"npm test","exit":0,"tests":38,"pass":38,"fail":0,"skipped":0}
+  ],
+  "evidence_boundary": "New regressions execute actual mount, controller, render and draft helpers with synthetic HTTP and a bounded form DOM fixture; not browser acceptance. Existing full suite includes isolated HTTP and SQLite tests. No live browser, production data, deployment or runtime process was changed. The missing/cached own-readback test is supplementary GREEN coverage, not a separate RED claim."
+}

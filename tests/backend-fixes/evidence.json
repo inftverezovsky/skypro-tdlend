@@ -1,0 +1,24 @@
+{
+  "scope": ["lib/bookings.mjs", "tests/backend-review.test.mjs", "tests/backend-fixes/**"],
+  "execution": "Real native HTTP and isolated synthetic SQLite :memory: fixtures; Date-only test clock for elapsed-time controls. No live runtime restart, browser use, git commands or frontend source edits.",
+  "receipts": [
+    {"file":"01-red.log","command":"node --test tests/backend-review.test.mjs","exit":1,"tests":1,"pass":0,"fail":1,"expected_failure":"reschedule: actual HTTP 200, expected 409"},
+    {"file":"01-green.log","command":"node --test tests/backend-review.test.mjs","exit":0,"tests":1,"pass":1,"fail":0},
+    {"file":"02-red.log","command":"node --test tests/backend-review.test.mjs","exit":1,"tests":2,"pass":1,"fail":1,"expected_failure":"reactivation: actual HTTP 200, expected 409"},
+    {"file":"02-green.log","command":"node --test tests/backend-review.test.mjs","exit":0,"tests":2,"pass":2,"fail":0},
+    {"file":"03-affected-green.log","command":"node --test tests/backend-review.test.mjs tests/backend.test.mjs tests/frontend-http.test.mjs","exit":0,"tests":31,"pass":31,"fail":0},
+    {"file":"04-regression-green.log","command":"node --test tests/backend-review.test.mjs tests/backend.test.mjs tests/frontend-http.test.mjs tests/frontend.test.mjs tests/frontend-review.test.mjs","exit":0,"tests":57,"pass":57,"fail":0}
+  ],
+  "supplementary_regressions": "18 supplementary controls added after the two behavioral RED/GREEN slices; these are regression coverage, not additional claimed RED receipts.",
+  "not_run": ["tests/backend-runtime.test.mjs (no CLI/runtime restart requested)"],
+  "sha256": {
+    "lib/bookings.mjs":"67717a3aa30de23756d65cb81b268032649376d29d19810c5118800d1c047b38",
+    "tests/backend-review.test.mjs":"9bd7c7df751981685e58cb5136eeeef70870a107975140519d3adb9720ee6752",
+    "tests/backend-fixes/01-red.log":"4aa7bed2facd808877a0a415aed611c8315ce8a21bf318c381f51a7eb7586683",
+    "tests/backend-fixes/01-green.log":"1c2ab44cc3d57723d546b65579bc96ebe9d9c5e56e7f47bb2db61f2b3f706883",
+    "tests/backend-fixes/02-red.log":"659fbb7487d24fe00495274ea3f1ae1c4d6ce0c900efc8c62afc3d910f2a9943",
+    "tests/backend-fixes/02-green.log":"a47df671ef288043bdfde3d51ac9e280faf0a2f3a3956729fcfcb4c1f9a0f157",
+    "tests/backend-fixes/03-affected-green.log":"794b006a31f9680aaf83608a828681586649a74f4aed331a3d295f67cad6f913",
+    "tests/backend-fixes/04-regression-green.log":"da26ee980e7e64c24cec93bdd42d6b6e4177fead38bff264f8f6ed93e88f16ad"
+  }
+}

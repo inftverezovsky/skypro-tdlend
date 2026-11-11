@@ -1,0 +1,15 @@
+.git
+.github
+node_modules
+.env
+.env.*
+!.env.example
+data
+coursework
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.log
+coverage
+.playwright-cli
